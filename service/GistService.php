@@ -42,3 +42,8 @@ class GistService {
     }
 
 }
+
+// create gist service
+$gist_service = new GistService(DBBroker::getInstance()); 
+
+?>

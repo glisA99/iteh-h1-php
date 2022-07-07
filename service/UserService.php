@@ -32,4 +32,7 @@ class UserService {
 
 }
 
+// create user service
+$user_service = new UserService(DBBroker::getInstance());
+
 ?>
