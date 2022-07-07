@@ -15,5 +15,5 @@ try {
         "error" => $exception->getMessage()
     ]);
 }
-
+''
 ?>
