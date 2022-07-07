@@ -22,13 +22,17 @@ class GistService {
         return $this->db_broker->load($query);
     }
 
-    public function getOne() {
-        $query = "SELECT * FROM gist";
+    public function get($id) {
+        $query = "SELECT * FROM gist WHERE gist_id=".$id;
         $gist = $this->db_broker->loadSingle($query);
         if(!isset($gist)) {
-            throw new Error("There are not gists available");
+            throw new Error("There is no gist with id=".$id);
         }
         return $this->loadAuthor($gist);
+    }
+
+    public function create($url,$filename,$author_id) {
+        $query = "INSERT INTO gist VALUES ('".$url."','".$filename."',".$author_id.")";
     }
 
     public function delete($gist_id) {
