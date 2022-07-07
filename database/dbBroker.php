@@ -1,19 +1,16 @@
 <?php
 
-class DBBroker
-{
+class DBBroker {
 
   private $mysqli;
   private static $instance;
 
-  private function __construct()
-  {
+  private function __construct() {
     $this->mysqli = new mysqli('localhost', 'root', '', 'klubovi');
     $this->mysqli->set_charset("utf8");
   }
 
-  public static function getInstance()
-  {
+  public static function getInstance() {
     if (!isset(DBBroker::$instance)) {
         DBBroker::$instance = new DBBroker();
     }
@@ -23,8 +20,7 @@ class DBBroker
   /**
    * Load only single record (row)
    */
-  function loadSingle($query)
-  {
+  function loadSingle($query) {
     $result = $this->mysqli->query($query);
     if (!$result) {
       throw new Exception($this->mysqli->error);
@@ -35,8 +31,7 @@ class DBBroker
   /**
    * Load all records that satisfy specified query
    */
-  function load($query)
-  {
+  function load($query) {
     $result = $this->mysqli->query($query);
     if (!$result) {
       throw new Exception($this->mysqli->error);
@@ -48,13 +43,10 @@ class DBBroker
     return $res;
   }
 
-  function execute($query)
-  {
+  function execute($query) {
     $result = $this->mysqli->query($query);
     if (!$result) {
       throw new Exception($this->mysqli->error);
     }
   }
 }
-
-?>
