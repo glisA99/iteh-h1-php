@@ -6,7 +6,7 @@ class DBBroker {
   private static $instance;
 
   private function __construct() {
-    $this->mysqli = new mysqli('localhost', 'root', '', 'klubovi');
+    $this->mysqli = new mysqli('localhost', 'root', 'root', 'gistsdb');
     $this->mysqli->set_charset("utf8");
   }
 
