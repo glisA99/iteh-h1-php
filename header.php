@@ -17,14 +17,6 @@
     <a class="navbar-brand" href="index.php">GitHub Gists demo</a>
 
     <div class="navbar-collapse collapse">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item mx-auto">
-          <a class="nav-link" href="index.php">Users</a>
-        </li>
-        <li class="nav-item mx-auto">
-          <a class="nav-link" href="zanrovi.php">Gists</a>
-        </li>
-      </ul>
     </div>
   </nav>
   <div class='container mt-4'>

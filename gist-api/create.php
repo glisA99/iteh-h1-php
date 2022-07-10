@@ -1,6 +1,6 @@
 <?php
 
-include "./service/GistService.php";
+include "../service/GistService.php";
 
 try {
     $filename = $_POST["filename"];

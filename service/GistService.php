@@ -32,7 +32,8 @@ class GistService {
     }
 
     public function create($url,$filename,$author_id) {
-        $query = "INSERT INTO gist VALUES ('".$url."','".$filename."',".$author_id.")";
+        $query = "INSERT INTO gist VALUES ('".$url."','".$filename."',$author_id)";
+        $this->db_broker->execute($query);
     }
 
     public function delete($gist_id) {

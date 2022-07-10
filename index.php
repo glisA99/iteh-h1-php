@@ -21,7 +21,7 @@ include 'header.php';
     </div>
     <div class="col-4">
       <h2>Create new GitHub Gist:</h2>
-      <form id='form'>
+      <form id='new-gist-form'>
         <div class="form-group">
           <label for="filename" class="col-form-label">Filename</label>
           <input required class="form-control" id="filename">
@@ -44,19 +44,17 @@ include 'header.php';
   $(document).ready(function() {
     console.log("init");
     loadGists();
+    $("#new-gist-form").submit(handleCreateGistClick);
   })
 
   function loadGists() {
-    console.log("HERE");
     $.getJSON('gist-api/getAll.php').then(function(result) {
-      console.log("HERE2");
       if (!result.success) {
         console.log("greska")
-        alert("Greska prilikom ucitavanje liste gistova");
+        alert("Error occured while fetching gists. Try refreshing page");
         return;
       }
-      console.log("Uspesno")
-      alert("Uspesno ucitana lista gistova");
+      console.log("Uspesno ucitana lista gistova");
       $('#gists_body').html("");
       for(let gist of result.gists) {
         $("#gists_body").append(`
@@ -66,11 +64,47 @@ include 'header.php';
               <td>${gist.filename}</td>
               <td>${gist.author_id}</td>
               <td>
-                <button onClick="obrisi(${gist.gist_id})" class='btn btn-danger'>Obrisi</button>  
+                <button onClick="deleteGist(${gist.gist_id})" class='btn btn-danger'>Obrisi</button>  
               </td>  
             </tr>
           `)
       }
     })
   }
+
+  function deleteGist(gist_id) {
+    const sendObject = { gist_id };
+    $.post('gist-api/delete.php', sendObject).then(response => {
+      response = JSON.parse(response);
+      if (!response.success) {
+        alert(`Error occured while deleting gist with id=${gist_id}. Refresh page`);
+        return;
+      }
+      loadGists();
+    })
+  }
+
+  function handleCreateGistClick(event) {
+    event.preventDefault();
+
+    const attrs = ['filename','url','author_id'];
+    const gist = {};
+    for(let attr of attrs) {
+      gist[attr] = $(`#${attr}`).val()
+    }
+    gist['author_id'] = Number.parseInt(gist['author_id']);
+    console.log(gist);
+    $.post("gist-api/create.php",{
+      ...gist
+    }).then(response => {
+      console.log(response);
+      response = JSON.parse(response);
+        if (!response.success) {
+          console.log(response.error);
+          alert("Error occured while creting new gist");
+        }
+        loadGists();
+    })
+  }
+
 </script>
