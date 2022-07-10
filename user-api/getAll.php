@@ -1,6 +1,6 @@
 <?php
 
-include "./service/UserService.php";
+include "../service/UserService.php";
 
 try {
     $users = $user_service->getAll();

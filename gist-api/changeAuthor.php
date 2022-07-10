@@ -1,6 +1,6 @@
 <?php
 
-include "./service/GistService.php";
+include "../service/GistService.php";
 
 try {
     $gist_id = $_POST["gist_id"];
@@ -15,5 +15,5 @@ try {
         "error" => $exception->getMessage()
     ]);
 }
-''
+
 ?>

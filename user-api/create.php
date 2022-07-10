@@ -1,6 +1,6 @@
 <?php
 
-include "./service/UserService.php";
+include "../service/UserService.php";
 
 try {
     $name = $_POST['name'];

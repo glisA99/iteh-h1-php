@@ -23,15 +23,15 @@ include 'header.php';
       <h2>Create new GitHub Gist:</h2>
       <form id='form'>
         <div class="form-group">
-          <label for="naziv" class="col-form-label">Filename</label>
-          <input required class="form-control" id="filaname">
+          <label for="filename" class="col-form-label">Filename</label>
+          <input required class="form-control" id="filename">
         </div>
         <div class="form-group">
-          <label for="adresa" class="col-form-label">URL</label>
+          <label for="url" class="col-form-label">URL</label>
           <input required class="form-control" id="url">
         </div>
         <div class="form-group">
-          <label for="radnoVreme" class="col-form-label">Author ID</label>
+          <label for="author_id" class="col-form-label">Author ID</label>
           <input required class="form-control" id="author_id">
         </div>
         <button type="submit" class="btn btn-primary form-control">Create</button>
@@ -39,3 +39,38 @@ include 'header.php';
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function() {
+    console.log("init");
+    loadGists();
+  })
+
+  function loadGists() {
+    console.log("HERE");
+    $.getJSON('gist-api/getAll.php').then(function(result) {
+      console.log("HERE2");
+      if (!result.success) {
+        console.log("greska")
+        alert("Greska prilikom ucitavanje liste gistova");
+        return;
+      }
+      console.log("Uspesno")
+      alert("Uspesno ucitana lista gistova");
+      $('#gists_body').html("");
+      for(let gist of result.gists) {
+        $("#gists_body").append(`
+            <tr>
+              <td>${gist.gist_id}</td>
+              <td>${gist.url}</td>
+              <td>${gist.filename}</td>
+              <td>${gist.author_id}</td>
+              <td>
+                <button onClick="obrisi(${gist.gist_id})" class='btn btn-danger'>Obrisi</button>  
+              </td>  
+            </tr>
+          `)
+      }
+    })
+  }
+</script>

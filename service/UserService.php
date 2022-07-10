@@ -1,6 +1,6 @@
 <?php
 
-require "./database/DBBroker.php";
+require "../database/DBBroker.php";
 
 class UserService {
     
