@@ -11,7 +11,12 @@ include 'header.php';
             <th>GIST_ID</th>
             <th>URL</th>
             <th>FILENAME</th>
-            <th>AUTHOR</th>
+            <th>
+              AUTHOR
+            </th>
+            <th>
+              <button class='btn btn-info' id="sort-auth">Sort by author</button>
+            </th>
           </tr>
         </thead>
         <tbody id='gists_body'>
@@ -41,22 +46,19 @@ include 'header.php';
 </div>
 
 <script>
+
+  var SORT_TYPE = "ASC";
+
   $(document).ready(function() {
     console.log("init");
     loadGists();
     $("#new-gist-form").submit(handleCreateGistClick);
+    $("#sort-auth").click(() => sortByAuthor());
   })
 
-  function loadGists() {
-    $.getJSON('gist-api/getAll.php').then(function(result) {
-      if (!result.success) {
-        console.log("greska")
-        alert("Error occured while fetching gists. Try refreshing page");
-        return;
-      }
-      console.log("Uspesno ucitana lista gistova");
-      $('#gists_body').html("");
-      for(let gist of result.gists) {
+  function displayGists(gists) {
+    $('#gists_body').html("");
+    for(let gist of gists) {
         $("#gists_body").append(`
             <tr>
               <td>${gist.gist_id}</td>
@@ -69,7 +71,39 @@ include 'header.php';
             </tr>
           `)
       }
+  }
+
+  function fetchGists() {
+    return $.getJSON('gist-api/getAll.php').then(function(result) {
+      if (!result.success) {
+        console.log("greska")
+        alert("Error occured while fetching gists. Try refreshing page");
+        return;
+      }
+      return result.gists;
     })
+  }
+
+  function loadGists() {
+    $.getJSON('gist-api/getAll.php').then(function(result) {
+      if (!result.success) {
+        console.log("greska")
+        alert("Error occured while fetching gists. Try refreshing page");
+        return;
+      }
+      console.log("Uspesno ucitana lista gistova");
+      displayGists(result.gists);
+    })
+  }
+
+  async function sortByAuthor() {
+    var gists = await fetchGists();
+    gists = gists.sort((gist1,gist2) => {
+      if (SORT_TYPE === 'ASC') return gist1.author_id - gist2.author_id;
+      else return gist2.author_id - gist1.author_id;
+    })
+    SORT_TYPE = SORT_TYPE === "ASC" ? "DESC" : "ASC";
+    displayGists(gists);
   }
 
   function deleteGist(gist_id) {
