@@ -1,0 +1,25 @@
+Aplikacija sluzi za rad sa GitHub gistovima.
+Svaki gist ima iskljucivo jednog autora, a svaki autor moze imati vise gistova.
+Aplikacija omogucava CRUD operacije nad ovim tabelama u MySQL bazi.
+
+Struktura i opis fajlova:
+	- server/db/Broker.php - klasa koja sluzi za konektovanje na bazu podataka i izvrsavanje upita
+		(posrednik izmedju servisa i servera baze podataka - genericka klasa)
+		*Singleton
+
+	- servis/UserServis.php - predstavlja klasu u kojoj se nalazi poslovna logika vezana za autore. 
+				  Ova klasa ima referencu na brokera baze podataka 
+	- servis/GistServis.php - predstavlja klasu u kojoj se nalazi poslovna logika vezana za gistove. 
+				  Ova klasa ima referencu na brokera
+
+	- server/user-api/getAll.php - putanja koja korisniku vraca sve autore u JSON formatu (poziva UserService)
+	- server/user-api/create.php - putanja koju korisnik poziva kako bi kreirao autora (poziva UserService)
+	- server/user-api/modifyphp - putanja koju korisnik poziva kako bi izmenio autora (poziva UserService)
+	- server/user-api/delete.php - putanja koju korisnik poziva kako bi obrisao autora (poziva UserService)
+
+	- server/gist-api/getAll.php - putanja koja korisniku vraca sve gistove u JSON formatu (poziva GistService)
+	- server/gist-api/create.php - putanja koju korisnik poziva kako bi kreirao novi gist (poziva GistService)
+	- server/gist-api/getOne.php - putanja koja korisniku gistov sa datim id-om u JSON formatu (poziva GistService)
+	- server/gist-api/delete.php - putanja koju korisnik poziva kako bi obrisao gist (poziva GistService)
+	- server/gist-api/changeAuthor.php - putanja koju korisnik poziva kako bi izmenio autora gista (poziva GistService)
+
